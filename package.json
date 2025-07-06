@@ -1,0 +1,19 @@
+{
+  "name": "va-loan-calculator",
+  "version": "1.0.0",
+  "description": "VA Loan Calculator with mortgage payment calculations",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "body-parser": "^1.20.2"
+  },
+  "keywords": ["mortgage", "va-loan", "calculator"],
+  "author": "",
+  "license": "MIT"
+} 

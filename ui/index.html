@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>VA Loan Calculator</title>
+  <style>
+    .tooltip {
+      border-bottom: 1px dotted #333;
+      cursor: help;
+      position: relative;
+    }
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 220px;
+      background-color: #333;
+      color: #fff;
+      text-align: left;
+      border-radius: 6px;
+      padding: 8px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -110px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.95em;
+    }
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+    .breakdown {
+      background: #f4f6fa;
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin-top: 10px;
+      font-size: 1em;
+      color: #1a237e;
+    }
+  </style>
+</head>
+<body>
+  <h1>VA Loan Calculator</h1>
+  <form id="loanForm">
+    <label>Home Price: $<input type="number" id="homePrice" required></label><br><br>
+    <label>Down Payment: $<input type="number" id="downPayment" required></label><br><br>
+    <label>Interest Rate (%): <input type="number" id="interestRate" step="0.01" required></label><br><br>
+    <label>Loan Term (Years): <input type="number" id="loanTermYears" required></label><br><br>
+    <label><input type="checkbox" id="isVA" checked> VA Loan</label>
+    <span class="tooltip">?
+      <span class="tooltiptext">A VA loan is a mortgage loan available through a program established by the U.S. Department of Veterans Affairs.</span>
+    </span><br>
+    <label><input type="checkbox" id="isExempt"> Funding Fee Exempt</label>
+    <span class="tooltip">?
+      <span class="tooltiptext">Some veterans are exempt from the VA funding fee, usually due to service-connected disability.</span>
+    </span><br>
+    <label><input type="checkbox" id="isFirstUse" checked> First Use</label>
+    <span class="tooltip">?
+      <span class="tooltiptext">First use means this is your first time using a VA loan. Funding fee rates are lower for first use.</span>
+    </span><br><br>
+    <button type="submit">Calculate</button>
+  </form>
+
+  <pre id="output"></pre>
+  <div id="breakdown" class="breakdown" style="display:none;"></div>
+
+  <script>
+    document.getElementById('loanForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const input = {
+        homePrice: Number(document.getElementById('homePrice').value),
+        downPayment: Number(document.getElementById('downPayment').value),
+        interestRate: Number(document.getElementById('interestRate').value),
+        loanTermYears: Number(document.getElementById('loanTermYears').value),
+        isVA: document.getElementById('isVA').checked,
+        isExemptFromFundingFee: document.getElementById('isExempt').checked,
+        isFirstUse: document.getElementById('isFirstUse').checked
+      };
+      try {
+        const res = await fetch('http://localhost:3000/api/calculate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(input)
+        });
+        const result = await res.json();
+        if (result.error) throw new Error(result.error);
+        document.getElementById('output').textContent =
+          `Loan Amount: $${result.loanAmount.toLocaleString()}` + "\n" +
+          `Funding Fee: $${result.fundingFee.toLocaleString()}` + "\n" +
+          `Total Loan Amount: $${result.totalLoanAmount.toLocaleString()}` + "\n" +
+          `Monthly Payment: $${result.monthlyPayment.toLocaleString()}` + "\n" +
+          `Total Cost: $${result.totalCost.toLocaleString()}`;
+        document.getElementById('breakdown').style.display = 'block';
+        document.getElementById('breakdown').innerHTML =
+          `<strong>Funding Fee Breakdown:</strong><br>${result.fundingFeeExplanation}`;
+      } catch (err) {
+        document.getElementById('output').textContent = "Error: " + err.message;
+        document.getElementById('breakdown').style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html> 
