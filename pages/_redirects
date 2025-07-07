@@ -1,0 +1,8 @@
+# Redirect root to index.html
+/ /index.html 200
+
+# Handle calculator route
+/calculator /calculator.html 200
+
+# Fallback for 404s
+/* /index.html 404 
