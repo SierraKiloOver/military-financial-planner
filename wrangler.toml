@@ -1,0 +1,6 @@
+name = "military-financial-planner"
+compatibility_date = "2025-07-07"
+main = "src/index.js"
+
+[site]
+bucket = "./pages" 
