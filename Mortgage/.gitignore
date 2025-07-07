@@ -1,0 +1,23 @@
+# Java build artifacts
+*.class
+*.jar
+*.war
+*.ear
+
+# IDE directories
+.idea/
+.vscode/
+
+# Build directories
+target/
+bin/
+
+# Node modules
+node_modules/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db 

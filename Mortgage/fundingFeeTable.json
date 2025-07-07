@@ -1,0 +1,20 @@
+[
+  {
+    "minDown": 0,
+    "maxDown": 4.99,
+    "firstUse": 0.0215,
+    "subsequentUse": 0.033
+  },
+  {
+    "minDown": 5,
+    "maxDown": 9.99,
+    "firstUse": 0.015,
+    "subsequentUse": 0.015
+  },
+  {
+    "minDown": 10,
+    "maxDown": 100,
+    "firstUse": 0.0125,
+    "subsequentUse": 0.0125
+  }
+] 

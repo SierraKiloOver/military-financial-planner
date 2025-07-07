@@ -1,0 +1,8 @@
+{
+  "homePrice": 400000,
+  "downPayment": 20000,
+  "interestRate": 4.5,
+  "loanTermYears": 30,
+  "isVA": true,
+  "isExemptFromFundingFee": false
+} 
